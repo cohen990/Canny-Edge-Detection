@@ -3,6 +3,10 @@ import binascii
 img = open("test.bmp", "rb");
 
 stream = []
+output = []
+
+Gy = [[-1, -2, -1],[0, 0, 0],[1, 2, 1]]
+Gx = [[-1, 0, 1],[-2, 0, 2], [-1, 0, 1]]
 
 try:
 	fileSignature = ""
@@ -67,10 +71,21 @@ try:
 
 			stream.append(row)
 
-		# while(byte!=''):
-		# 	stream.append(byte)
-			# byte = img.read(1)
+
+		for i in range(width):
+			row = []
+			for j in range(height):
+				calcedGx = 0
+				for Gi in range(3):
+					for Gj in range(3):
+						try:
+							calcedGx += Gx[Gi][Gj] * stream[i + Gi - 1][j + Gj - 1]
+						except IndexError:
+							print("Index Error")
+				row.append(calcedGx)
+			output.append(row)
+
 finally:
 	img.close()
 
-print(stream)
+print(output)
